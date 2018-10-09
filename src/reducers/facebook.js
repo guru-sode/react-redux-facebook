@@ -2,7 +2,6 @@ import data from '../data/fb.json';
 
 const initialState={
     data:data,
-    comment : [],
 }
 
 const facebookReducer=(state=initialState,action)=>{
@@ -94,6 +93,23 @@ const facebookReducer=(state=initialState,action)=>{
         return{
             ...state,
             likes:dislikes
+        }
+        case 'ADD_COMMENTS':
+        const currentTime=new Date();
+        let newComment={
+            comment:action.payload.input,
+            created_at:currentTime
+        }
+        console.log(newComment);
+        let newData=state.data.map(posts=>{
+            if(posts.id===action.payload.id){
+                newData=posts.comments.concat(newComment);
+            }
+            return newData;
+        });
+        console.log(newData);
+        return{
+            ...state,
         }
         default:
         return state;

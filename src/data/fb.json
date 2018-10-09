@@ -1,5 +1,6 @@
 [
   {
+    "id": 1,
     "item_description": "This is a text only item",
     "image": " ",
     "likes": 10,
@@ -15,6 +16,7 @@
     ]
   },
   {
+    "id": 2,
     "item_description": "This is an item with an image",
     "image": "./download.jpeg",
     "likes": 20,

@@ -12,8 +12,10 @@ class Posts extends Component {
     this.displayComments=this.displayComments.bind(this);
   }
 
-  addComments(event){
-      console.log(event.target.value);
+  addComments(id){
+      const input=document.getElementById(id);
+      this.props.ADD_COMMENTS(id,input.value);
+      console.log(input.value);
   }
 
   handleClick(name){
@@ -61,8 +63,8 @@ class Posts extends Component {
                 <p>Number of likes:{posts.likes}</p>
                 <h4>Comments</h4>
                 <ul>{this.displayComments(posts.item_description)}</ul>
-                <input type="text" placeholder="Reply to a comment..."></input>
-                <button type="submit" onChange={this.addComments}>Submit</button>
+                <input type="text" id={posts.id} placeholder="Reply to a comment..."></input>
+                <button type="submit" onClick={this.addComments.bind(this,posts.id)}>Submit</button>
               </div>
             );
             return feed;
@@ -152,7 +154,11 @@ const mapStateToProps = state => {
   const mapDispatchToProps = dispatch => {
     return {
       LIKES: name=> dispatch({ type: 'LIKES', payload:name }),
-      DISLIKES: name=> dispatch({type:'DISLIKES',payload:name})
+      DISLIKES: name=> dispatch({type:'DISLIKES',payload:name}),
+      ADD_COMMENTS : (id,input)=> dispatch({type:'ADD_COMMENTS',payload:{
+        id:id,
+        input:input}
+      })
     };
   };
 

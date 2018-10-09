@@ -17,7 +17,6 @@ class Posts extends Component {
   }
 
   handleClick(name){
-     console.log('like clicked',name);
      if(likeFlag){
         this.props.LIKES(name);
         likeFlag=false;
@@ -31,17 +30,22 @@ class Posts extends Component {
   }
 
   displayComments(name){
-      this.props.COMMENTS(name);
-      return this.renderComments();
+    let comments=[];
+    this.props.data.map(posts=>{
+        if(posts.item_description===name){
+            posts.comments.forEach(comment => {
+                comments.push(comment.comment);
+            });
+        }
+        return comments;
+    });
+    return this.renderComments(comments);
   }
 
-  renderComments(){
-    let comment=[];
-    console.log(this.props.comment,'renderComment')
-    comment = this.props.comment.map(content=>{
-        return(<li>{content}</li>);
+  renderComments(comments){
+    let comment = comments.map(content=>{
+        return(<li key={content}>{content}</li>);
     })
-    console.log(comment);
     return comment;
   }
 
@@ -76,6 +80,7 @@ class Posts extends Component {
                 </button>
                 <p>Number of likes:{this.props.likes[i]}</p>
                 <h4>Comments</h4>
+                <ul>{this.displayComments(posts)}</ul>
                 <input type="text" placeholder="Reply to a comment..."></input>
               </div>
             );
@@ -96,6 +101,7 @@ class Posts extends Component {
                 </button>
                 <p>Number of likes:{this.props.likes[i]}</p>
                 <h4>Comments</h4>
+                <ul>{this.displayComments(posts)}</ul>
                 <input type="text" placeholder="Reply to a comment..."></input>
               </div>
             );
@@ -116,6 +122,7 @@ class Posts extends Component {
                 </button>
                 <p>Number of likes:{this.props.likes[i]}</p>
                 <h4>Comments</h4>
+                <ul>{this.displayComments(posts)}</ul>
                 <input type="text" placeholder="Reply to a comment..."></input>
               </div>
             );
@@ -145,8 +152,7 @@ const mapStateToProps = state => {
   const mapDispatchToProps = dispatch => {
     return {
       LIKES: name=> dispatch({ type: 'LIKES', payload:name }),
-      DISLIKES: name=> dispatch({type:'DISLIKES',payload:name}),
-      COMMENTS: name=> dispatch({type:'COMMENTS',payload:name})
+      DISLIKES: name=> dispatch({type:'DISLIKES',payload:name})
     };
   };
 

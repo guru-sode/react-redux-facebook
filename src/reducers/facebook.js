@@ -95,23 +95,6 @@ const facebookReducer=(state=initialState,action)=>{
             ...state,
             likes:dislikes
         }
-        case 'COMMENTS':
-        let comments=[];
-        state.data.map(posts=>{
-            if(posts.item_description===action.payload){
-                posts.comments.forEach(comment => {
-                    comments.push(comment.comment)
-                });
-            }
-        })
-        if(state.comment !== comments)
-           {
-            return{
-                ...state,
-                comment:comments,
-           } 
-    }
-    break;
         default:
         return state;
     }
